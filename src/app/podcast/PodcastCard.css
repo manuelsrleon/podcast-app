@@ -1,0 +1,44 @@
+.podcast-card-container{
+    width: 500px;
+    padding:15px;
+}
+
+.podcast-card-title{
+    font-weight: bold;
+    font-size: 1.2em;
+}
+.podcast-card-author{
+    font-style: italic;
+}
+.podcast-card-description-title{
+    font-weight: bold;
+}
+.podcast-card-description{
+    font-style: italic;
+}
+
+.podcast-card-cover{
+    display: block;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    margin:auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    align-self: center;
+    padding:auto;
+}
+.podcast-card-description-block{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    padding:auto;
+    color: #444;
+}
+
+.podcast-card-title-block{
+    
+    display: block;
+    margin: 20px 10px;
+    padding:auto;
+}

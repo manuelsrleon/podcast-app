@@ -1,0 +1,7 @@
+:root{
+    --accent-color: #2478c1;
+}
+
+.card{
+    box-shadow: 0px 5px 10px 3px #ddd;
+}

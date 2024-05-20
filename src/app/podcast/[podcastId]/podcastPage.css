@@ -1,0 +1,41 @@
+.podcast-root{
+    display:flex;
+    flex-direction: row;
+    gap:3em;
+    margin:2em;
+}
+.episodes{
+    margin:0px 50px;
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+.episodeRow > td{
+    padding:12px 10px;
+    border-bottom: 1px solid #aaa;
+}
+
+.episodesTable {
+    padding: 20px;
+    width: 100%;
+}
+
+.episodesTable > tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+.episodes-counter {
+    display:block;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 15px;
+}   
+
+.episodes-table-header-title, .episodes-table-header-date, .episodes-table-header-duration { 
+    text-align: left;
+}
+
+.episodes-table-duration{
+    text-align: right;
+}

@@ -1,0 +1,37 @@
+.podcast-img{
+    border-radius: 9999px;
+    width: 8em;
+    height:8em;
+    position: absolute;
+    top:20px;
+}
+.podcast-container{
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    transition: 0.2s;
+}
+.podcast-container:hover{
+    transform: translateY(-20px);
+    cursor: pointer;
+
+}
+.podcast-card{
+    margin-top:5em;
+    
+    display:flex;
+    flex-direction: column;
+    padding:1em;
+    align-items: center;
+    padding-top:5em;
+    justify-content: flex-start;
+    gap:1em;
+}
+.podcast-title{
+    text-transform: uppercase;
+    text-align: center;
+}
+.podcast-author{
+    color: gray;
+    text-align: center;
+}
