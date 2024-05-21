@@ -18,7 +18,6 @@
 }
 .podcast-card{
     margin-top:5em;
-    
     display:flex;
     flex-direction: column;
     padding:1em;

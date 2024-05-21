@@ -1,3 +1,11 @@
+.topbar-container{
+    display:flex;
+    width: 100%;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-bottom:10px;
+    border-bottom: 2px solid #f8f8f8;
+}
 .app-title{
     color: #2478c1;
     font-weight: bold;
@@ -6,4 +14,27 @@
 
 header{
     width: 100%;
+}
+
+.topbar-loader{
+    width: 25px;
+    height: 25px;
+    display:inline-block;
+    border-radius: 100px;
+    background: linear-gradient(157deg, rgba(255,255,255,1) 0%, rgba(0,176,255,1) 90%);
+    animation: rotation 2s linear infinite;
+    visibility: visible;
+}
+
+.topbar-loader .hidden{
+    visibility: hidden;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359.9deg);
+    }
 }

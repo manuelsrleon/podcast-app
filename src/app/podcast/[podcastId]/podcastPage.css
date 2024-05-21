@@ -5,8 +5,7 @@
     margin:2em;
 }
 .episodes{
-    margin:0px 50px;
-    width: 100%;
+    width: 70vw;
     display:flex;
     flex-direction: column;
     gap: 1.5em;

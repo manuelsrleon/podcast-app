@@ -28,9 +28,7 @@ export default function PodcastPage({params} : {params?: {podcastId: string}}) {
                 const response = await fetch(`${API_URL}&id=${podcastId}&entity=podcastEpisode`);
 
                 const episodeData = await response.json();
-                //trackId, trackName, trackTimeMillis, trackViewURL, releaseDate
-                console.log(episodeData);
-                setEpisodes(episodeData["results"]);
+                setEpisodes(episodeData["results"].splice(-(episodeData["results"].length-1)));
 
             }catch(error) {
             console.error(error);
@@ -50,7 +48,7 @@ export default function PodcastPage({params} : {params?: {podcastId: string}}) {
         <PodcastCard id={podcast["trackId"]} 
             title={podcast["collectionName"]}
             author={podcast["artistName"]} 
-            description={podcast["collectionName"]} 
+            description={podcast["shortDescription"]} 
             imgUrl={podcast["artworkUrl100"]}/>
         : <></>}
         

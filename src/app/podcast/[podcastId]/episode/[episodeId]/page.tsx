@@ -16,8 +16,8 @@ export default function EpisodePage({params} : {params?: {podcastId: string, epi
     const CACHE_TIMESTAMP_KEY = 'podcastDataTimestamp';
     const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
     useEffect(() => {
-        const cachedPodcastData = localStorage.getItem(CACHE_PODCAST_KEY);
-        const cachedEpisodeData = localStorage.getItem(CACHE_EPISODE_KEY);
+        const cachedPodcastData = localStorage.getItem(CACHE_PODCAST_KEY+"id"+podcastId);
+        const cachedEpisodeData = localStorage.getItem(CACHE_EPISODE_KEY+"e");
         
         const cachedTimestamp = parseInt(localStorage.getItem(CACHE_TIMESTAMP_KEY) ?? "-1");
         const now = Date.now();
@@ -32,7 +32,7 @@ export default function EpisodePage({params} : {params?: {podcastId: string, epi
                 const response = await fetch(`${API_URL}&id=${podcastId}&entity=podcast`);
                 const podcastData = await response.json();
                 setPodcast(podcastData["results"][0])
-                localStorage.setItem(CACHE_KEY, JSON.stringify(podcastData["results"][0]))
+                localStorage.setItem(CACHE_PODCAST_KEY+"p"+podcastId, JSON.stringify(podcastData["results"][0]))
                 localStorage.setItem(CACHE_TIMESTAMP_KEY, JSON.stringify(now.toString))
             }catch(error){
                 console.error(error);
@@ -50,6 +50,8 @@ export default function EpisodePage({params} : {params?: {podcastId: string, epi
                 //trackId, trackName, trackTimeMillis, trackViewURL, releaseDate
                 console.log(episodeData["results"].filter((episode: any) => episode["trackId"] == params?.episodeId)[0]);
                 setEpisode(episodeData["results"].filter((episode: any) => episode["trackId"] == params?.episodeId)[0]);
+                localStorage.setItem(CACHE_PODCAST_KEY+"e"+podcastId, JSON.stringify(episodeData["results"][0]))
+                localStorage.setItem(CACHE_TIMESTAMP_KEY, JSON.stringify(now.toString))
 
             }catch(error) {
             console.error(error);
@@ -69,16 +71,15 @@ export default function EpisodePage({params} : {params?: {podcastId: string, epi
         <PodcastCard id={podcast["collectionId"]} 
             title={podcast["collectionName"]}
             author={podcast["artistName"]} 
-            description={podcast["collectionName"]} 
+            description={podcast["description"]} 
             imgUrl={podcast["artworkUrl100"]}/>
         : <></>}
         
         <div className="episode card">
             <h1>{episode["trackName"]}</h1>
-            <p className="episode-description"> {episode["description"]}</p>
+            <p className="episode-description">{episode["description"]}</p>
             <hr />
-            <audio controls={true} className="episode-player">
-                <source src={episode["episodeUrl"]} type="audio/mpeg" />
+            <audio controls src={episode["episodeUrl"]}>
             </audio>
             
         </div>
