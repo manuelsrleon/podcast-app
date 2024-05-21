@@ -2,6 +2,7 @@
 
 import { useEffect, useState} from "react";
 import PodcastCard from "../PodcastCard";
+import Link from "next/link";
 import "./podcastPage.css"
 
 export default function PodcastPage({params} : {params?: {podcastId: string}}) {
@@ -46,7 +47,7 @@ export default function PodcastPage({params} : {params?: {podcastId: string}}) {
     
     return <div className="podcast-root">
         {podcast? 
-        <PodcastCard id="1" 
+        <PodcastCard id={podcast["trackId"]} 
             title={podcast["collectionName"]}
             author={podcast["artistName"]} 
             description={podcast["collectionName"]} 
@@ -59,6 +60,7 @@ export default function PodcastPage({params} : {params?: {podcastId: string}}) {
             </span>
         <div className="episodes-table-container">
             <table className="episodesTable card">
+                <tbody>
                 <tr>
                     <th className="episodes-table-header-title">Title</th>
                     <th className="episodes-table-header-date">Date</th>
@@ -66,11 +68,12 @@ export default function PodcastPage({params} : {params?: {podcastId: string}}) {
                 </tr>
                 {episodes.map((episode) => {
                     return <tr className="episodeRow" key={episode["trackId"]}>
-                                <td className="episodes-table-title">{episode["trackName"]}</td>
+                                <td className="episodes-table-title"><Link href={"/podcast/"+podcastId+"/episode/"+episode["trackId"]}>{episode["trackName"]}</Link></td>
                                 <td className="episodes-table-date">{new Date(episode["releaseDate"]).toLocaleDateString()}</td>
                                 <td className="episodes-table-duration">{new Date(episode["trackTimeMillis"]).toISOString().slice(11,16)}</td>
                             </tr>
                 })}
+                </tbody>
             </table>
         </div>
         </div>

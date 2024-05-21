@@ -1,8 +1,11 @@
+import Link from "next/link";
 import "./TopBar.css"
 export function TopBar() {
-    return <header>
-        <span className="app-title">Podcaster</span>
+    return <>
+        <Link href="/" style={{textDecoration: "none"}}>
+            <span className="app-title">Podcaster</span>
+        </Link>
         <hr />
-    </header>
+    </>
 }
 export default TopBar;

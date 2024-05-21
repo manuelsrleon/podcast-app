@@ -39,3 +39,8 @@
 .episodes-table-duration{
     text-align: right;
 }
+
+.episodes-table-title > a {
+    text-decoration: none;
+    color: #06a
+}

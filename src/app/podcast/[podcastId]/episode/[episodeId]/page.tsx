@@ -3,33 +3,53 @@
 import { useEffect, useState} from "react";
 import PodcastCard from "../../../PodcastCard";
 import "../../podcastPage.css"
+import "./episode.css"
 
-export default function PodcastPage({params} : {params?: {podcastId: string}}) {
+export default function EpisodePage({params} : {params?: {podcastId: string, episodeId: string}}) {
     
     const API_URL = process.env.NEXT_PUBLIC_API_URL_DETAIL;
     const [podcast, setPodcast] = useState();
-    const [episodes, setEpisodes] = useState<any[]>([]);
-
+    const [episode, setEpisode] = useState<any[]>([]);
+    
+    const CACHE_PODCAST_KEY = 'podcastData';
+    const CACHE_EPISODE_KEY = 'episodeData';
+    const CACHE_TIMESTAMP_KEY = 'podcastDataTimestamp';
+    const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
     useEffect(() => {
+        const cachedPodcastData = localStorage.getItem(CACHE_PODCAST_KEY);
+        const cachedEpisodeData = localStorage.getItem(CACHE_EPISODE_KEY);
+        
+        const cachedTimestamp = parseInt(localStorage.getItem(CACHE_TIMESTAMP_KEY) ?? "-1");
+        const now = Date.now();
+        //cache check
+        
 
         const fetchPodcastData = async () => {
+            if (cachedPodcastData && cachedTimestamp != -1 && (now - cachedTimestamp < ONE_DAY_IN_MS)){
+                return JSON.parse(cachedPodcastData);
+            }
             try {
                 const response = await fetch(`${API_URL}&id=${podcastId}&entity=podcast`);
                 const podcastData = await response.json();
                 setPodcast(podcastData["results"][0])
-                console.log(podcastData)
+                localStorage.setItem(CACHE_KEY, JSON.stringify(podcastData["results"][0]))
+                localStorage.setItem(CACHE_TIMESTAMP_KEY, JSON.stringify(now.toString))
             }catch(error){
                 console.error(error);
             }
         }
         const fetchEpisodeData = async () => {
+            if (cachedEpisodeData && cachedTimestamp != -1 && (now - cachedTimestamp < ONE_DAY_IN_MS)){
+                console.log("cache get!");
+                return JSON.parse(cachedEpisodeData);
+            }
             try{
-                const response = await fetch(`${API_URL}&id=${podcastId}&entity=podcastEpisode`);
+                const response = await fetch(`${API_URL}&id=${podcastId}`);
 
                 const episodeData = await response.json();
                 //trackId, trackName, trackTimeMillis, trackViewURL, releaseDate
-                console.log(episodeData);
-                setEpisodes(episodeData["results"]);
+                console.log(episodeData["results"].filter((episode: any) => episode["trackId"] == params?.episodeId)[0]);
+                setEpisode(episodeData["results"].filter((episode: any) => episode["trackId"] == params?.episodeId)[0]);
 
             }catch(error) {
             console.error(error);
@@ -46,33 +66,21 @@ export default function PodcastPage({params} : {params?: {podcastId: string}}) {
     
     return <div className="podcast-root">
         {podcast? 
-        <PodcastCard id="1" 
+        <PodcastCard id={podcast["collectionId"]} 
             title={podcast["collectionName"]}
             author={podcast["artistName"]} 
             description={podcast["collectionName"]} 
             imgUrl={podcast["artworkUrl100"]}/>
         : <></>}
         
-        <div className="episodes">
-            <span className="episodes-counter card">
-                Episodes: {episodes.length}
-            </span>
-        <div className="episodes-table-container">
-            <table className="episodesTable card">
-                <tr>
-                    <th className="episodes-table-header-title">Title</th>
-                    <th className="episodes-table-header-date">Date</th>
-                    <th className="episodes-table-header-duration">Duration</th>
-                </tr>
-                {episodes.map((episode) => {
-                    return <tr className="episodeRow" key={episode["trackId"]}>
-                                <td className="episodes-table-title">{episode["trackName"]}</td>
-                                <td className="episodes-table-date">{new Date(episode["releaseDate"]).toLocaleDateString()}</td>
-                                <td className="episodes-table-duration">{new Date(episode["trackTimeMillis"]).toISOString().slice(11,16)}</td>
-                            </tr>
-                })}
-            </table>
-        </div>
+        <div className="episode card">
+            <h1>{episode["trackName"]}</h1>
+            <p className="episode-description"> {episode["description"]}</p>
+            <hr />
+            <audio controls={true} className="episode-player">
+                <source src={episode["episodeUrl"]} type="audio/mpeg" />
+            </audio>
+            
         </div>
     </div>
 }
